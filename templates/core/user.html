@@ -1,0 +1,37 @@
+{% block content %}
+    {% if user %}
+    <div>
+        <h1>User: {{ user }}</h1>
+        <ul>
+            <li>Real Name: {{ user.user.first_name }} {{ user.user.last_name }}</li>
+            <li>Age: {{ user.dob }}</li>
+            <li>Gender: {{ user.gender }}</li>
+            <li>Location: {{ user.location }}</li>
+            <li>Last Seen: {% if user.user.last_login %}
+                {{ user.user.last_login }}
+                {% else %}
+                Never</li>
+                {% endif %}
+        </ul>
+
+        <p> {{ user.description }}</p>
+
+        <h2>Registered Machines</h2>
+
+        {% for i in installs %}
+        <div>
+            <h3><a href="/rig/{{ i.id }}/">{{ i.name }}</a></h3>
+            <ul>
+                <li>CPU: {{ i.cpu }}</li>
+                <li>Memory: {{ i.mem_amount }} ({{ i.mem_type }}) </li>
+                <li>Graphics Card: {{ i.gpu }}</li>
+                <li>Operating System: {{ i.os }}</li>
+                <li>Computer Type: {{ i.type }}</li>
+            </ul>
+        </div>
+        {% endfor %}
+    </div>
+    {% else %}
+        <p>No such user found!</p>
+    {% endif %}
+{% endblock %}
