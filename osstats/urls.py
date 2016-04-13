@@ -22,6 +22,8 @@ urlpatterns = [
     url(r'^admin/', admin.site.urls),
 
     # Root view "/"
+    url(r'^$', views.index, name='index'),
+
     url(r'^user/(?P<user_id>[0-9]+)/$', views.user_detail, name='detail'),
     url(r'^rig/(?P<install_id>[0-9]+)/$', views.install_detail, name='detail'),
 ]

@@ -1,0 +1,22 @@
+{% extends 'core/master.html' %}
+{% load bootstrap3 %}
+
+{% block title %} Machine: {{ install.name }} {% endblock %}
+
+{% block content %}
+    {% if install %}
+    <div>
+        <ul>
+        <li>CPU: {{ install.cpu }}</li>
+        <li>Memory: {{ iinstall.mem_amount }} ({{ install.mem_type }}) </li>
+        <li>Graphics Card: {{ install.gpu }}</li>
+        <li>Operating System: {{ install.os }}</li>
+        <li>Computer Type: {{ install.type }}</li>
+        </ul>
+
+        <h3>This machine is owned by <a href="/user/{{ install.owner.user.id }}/">{{ install.owner.user }}</a></h3>
+    </div>
+    {% else %}
+        <p>No such user found!</p>
+    {% endif %}
+{% endblock %}

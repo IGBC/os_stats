@@ -1,7 +1,11 @@
+{% extends 'core/master.html' %}
+{% load bootstrap3 %}
+
+{% block title %} User: {{ user }} {% endblock %}
+
 {% block content %}
     {% if user %}
     <div>
-        <h1>User: {{ user }}</h1>
         <ul>
             <li>Real Name: {{ user.user.first_name }} {{ user.user.last_name }}</li>
             <li>Age: {{ user.dob }}</li>
