@@ -1,21 +1,27 @@
 {% extends 'core/master.html' %}
-{% load bootstrap3 %}
 
 {% block title %}Welcome to osstats.org{% endblock %}
 
 {% block content %}
 
-    {% if installs and users %}
-    <div>
-        <p>This platform aims to create statistics about what operating systems people are using, what machines they are attached to and how active they are.
-            It is maintained by the open source community and it's source is available <a href="https://github.com/spacekookie/os_stats">here</a>.</p>
-        <p>All additional statistics (including registering an account) is optional. Head over to the statistics page to see some graphs and numbers.</p>
+    <div class="data">
+        {% if installs and users %}
+            <p>This platform aims to create statistics about what operating systems people are using, what machines they are attached to and how active they are.
+                It is maintained by the open source community and it's source is available <a href="https://github.com/spacekookie/os_stats">here</a>.</p>
+            <p>All additional statistics (including registering an account) is optional. Head over to the statistics page to see some graphs and numbers.</p>
 
-        <p>To date <b>{{ installs }}</b> machines have been submitted by <b>{{ users }}</b> users</p>
+            <p>To date <b>{{ installs }}</b> machines have been submitted by <b>{{ users }}</b> users</p>
+            {% if users_list %}
+                <ul>
+                {% for u in users_list %}
+                    <li><a href="/user/{{ u.id }}/">{{ u }}</a></li>
+                {% endfor %}
+            </ul>
+            {% endif %}
 
+        {% else %}
+            <p>A database error occured!</p>
+        {% endif %}
     </div>
-    {% else %}
-        <p>A database error occured!</p>
-    {% endif %}
 
 {% endblock %}

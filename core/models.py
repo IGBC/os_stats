@@ -2,30 +2,6 @@ from django.db import models
 from django.contrib.auth.models import User
 
 
-class EnumField(models.Field):
-    """
-    A field class that maps to MySQL's ENUM type.
-
-    Usage:
-
-    class Card(models.Model):
-        suit = EnumField(values=('Clubs', 'Diamonds', 'Spades', 'Hearts'))
-
-    c = Card()
-    c.suit = 'Clubs'
-    c.save()
-    """
-
-    def __init__(self, *args, **kwargs):
-        self.values = kwargs.pop('values')
-        kwargs['choices'] = [(v, v) for v in self.values]
-        kwargs['default'] = self.values[0]
-        super(EnumField, self).__init__(*args, **kwargs)
-
-    def db_type(self):
-        return "enum({0})".format(','.join("'%s'" % v for v in self.values))
-
-
 class UserProfile(models.Model):
     """
     A model that describes a user profile. Each profile is
@@ -33,6 +9,7 @@ class UserProfile(models.Model):
     picture, biography text and gender.
     """
 
+0    # The UserProfile acts as a proxy to this Django user that handles all the authentication
     user = models.OneToOneField(User)
     description = models.TextField()
     dob = models.DateField('date of birth')
@@ -44,25 +21,40 @@ class UserProfile(models.Model):
         return self.user.username
 
 
+class OSDistribution(models.Model):
+    name = models.CharField(max_length=64, default='')
+    arch = models.CharField(max_length=16, default='amd64')
+
+
 class Installation(models.Model):
     """
     A model that describes an installation with all the computer
     stats and some useful metadata.
     """
 
-    OS_TYPES = (
-        (0, 'Unknown'),
-        (1, 'Linux'),
-        (2, 'BSD'),
-        (3, 'Windows'),
-        (4, 'Mac OS X'),
+    UNKNOWN = 'Unknown'
+    LINUX = 'Linux'
+    BSD = 'BSD'
+    WIN = 'Windows'
+    OSX = 'Mac OS X'
+
+    DESKTOP = 'Desktop'
+    LAPTOP = 'Laptop'
+    SERVER = 'Server'
+
+    COMPUTER_TYPES = (
+        (UNKNOWN, 'Unknown'),
+        (DESKTOP, 'Desktop'),
+        (LAPTOP, 'Laptop'),
+        (SERVER, 'Server'),
     )
 
-    MACHINE_TYPE = (
-        (0, 'Unknown'),
-        (1, 'Desktop'),
-        (2, 'Laptop'),
-        (3, 'Server'),
+    OPERATING_SYSTEMS = (
+        (UNKNOWN, 'Unknown'),
+        (LINUX, 'Linux'),
+        (BSD, 'BSD'),
+        (WIN, 'Windows'),
+        (OSX, 'Mac OS X'),
     )
 
     name = models.CharField(max_length=32, default='My Computer')
@@ -75,8 +67,11 @@ class Installation(models.Model):
     mem_type = models.CharField(max_length=16, default='Unknown')
     mem_amount = models.IntegerField(default=0)
     gpu = models.CharField(max_length=64, default='Unknown')
-    os = models.IntegerField(choices=OS_TYPES, default=0)
-    type = models.IntegerField(choices=MACHINE_TYPE, default=0)
+
+    # Software running on it
+    os = models.CharField(max_length=16, choices=OPERATING_SYSTEMS, default=UNKNOWN)
+    type = models.CharField(max_length=16, choices=COMPUTER_TYPES, default=UNKNOWN)
+    distribution = models.ForeignKey(OSDistribution, blank=True, null=True)
 
     def __str__(self):
         return "Computer: %s with %s installed" % (self.name, str(self.os))

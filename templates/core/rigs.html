@@ -1,0 +1,19 @@
+{% extends 'core/master.html' %}
+
+{% block title %} Registered Users {% endblock %}
+
+{% block content %}
+    {% if machines %}
+     <ul>
+    {% for m in machines %}
+        <li> <b>Name:</b> <a href="/rig/{{ m.id }}/">{{ m.name }}</a><br>
+            <b>Type:</b> {{ m.type }}<br>
+            <b>OS:</b> {{ m.os }}
+            <br/>
+        </li>
+    {% endfor %}
+    </ul>
+    {% else %}
+        <p>No such user found!</p>
+    {% endif %}
+{% endblock %}

@@ -24,6 +24,14 @@ urlpatterns = [
     # Root view "/"
     url(r'^$', views.index, name='index'),
 
-    url(r'^user/(?P<user_id>[0-9]+)/$', views.user_detail, name='detail'),
-    url(r'^rig/(?P<install_id>[0-9]+)/$', views.install_detail, name='detail'),
+    url(r'^user/(?P<user_id>[0-9]+)/$', views.detail_user, name='detail'),
+    url(r'^rig/(?P<install_id>[0-9]+)/$', views.detail_machine, name='detail'),
+
+    url(r'^users/$', views.list_users, name='list_users'),
+    url(r'^rigs/$', views.list_machines, name='list_rigs'),
+
+    url(r'^register/$', views.signup_user, name='register'),
+
+    # url(r'^stats/$', views.list_machines, name='list_rigs'),
+    # url(r'^join/$', views.list_machines, name='list_rigs'),
 ]
