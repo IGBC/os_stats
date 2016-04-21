@@ -1,7 +1,8 @@
 from django.shortcuts import get_object_or_404, render, get_list_or_404
+from django.contrib.auth.decorators import login_required
+from django.contrib.auth.forms import UserCreationForm
 
 from .models import UserProfile, Installation
-from .forms import UserProfileForm
 
 
 def index(request):
@@ -36,5 +37,24 @@ def list_machines(request):
     return render(request, 'core/rigs.html', {'machines': machines})
 
 
-def signup_user(request):
-    return render(request, 'core/signup.html', {})
+def signup(request):
+    if request.method == 'POST':
+        uf = UserCreationForm(request.POST, prefix='user')
+
+        if uf.is_valid():
+            user = uf.save()
+            up = UserProfile()
+
+            userprofile = upf.save(commit=False)
+            userprofile.user = user
+            userprofile.save()
+            # return 
+
+    # If we weren't called with POST
+    form = UserCreationForm()
+    return render(request, 'registration/signup.html', {'form': form})
+
+
+@login_required
+def profile(request):
+    return render(request, 'registration/profile.html', {'user': request.user})

@@ -16,7 +16,9 @@ Including another URLconf
 from django.conf.urls import url
 from django.contrib import admin
 
+from django.contrib.auth import views as auth_views
 from core import views
+
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
@@ -24,13 +26,18 @@ urlpatterns = [
     # Root view "/"
     url(r'^$', views.index, name='index'),
 
-    url(r'^user/(?P<user_id>[0-9]+)/$', views.detail_user, name='detail'),
-    url(r'^rig/(?P<install_id>[0-9]+)/$', views.detail_machine, name='detail'),
+    # Detail view for users and machines
+    url(r'^user/(?P<user_id>[0-9]+)/$', views.detail_user, name='detail_user'),
+    url(r'^rig/(?P<install_id>[0-9]+)/$', views.detail_machine, name='detail_machine'),
 
+    # List of users and machines
     url(r'^users/$', views.list_users, name='list_users'),
     url(r'^rigs/$', views.list_machines, name='list_rigs'),
 
-    url(r'^register/$', views.signup_user, name='register'),
+    # Login, authentication and registration
+    url(r'^profile/$', views.profile, name='profile'),
+    url(r'^login/$', auth_views.login, name='login'),
+    url(r'^signup/$', views.signup, name='signup'),
 
     # url(r'^stats/$', views.list_machines, name='list_rigs'),
     # url(r'^join/$', views.list_machines, name='list_rigs'),

@@ -9,7 +9,7 @@ class UserProfile(models.Model):
     picture, biography text and gender.
     """
 
-0    # The UserProfile acts as a proxy to this Django user that handles all the authentication
+    # The UserProfile acts as a proxy to this Django user that handles all the authentication
     user = models.OneToOneField(User)
     description = models.TextField()
     dob = models.DateField('date of birth')
@@ -67,10 +67,10 @@ class Installation(models.Model):
     mem_type = models.CharField(max_length=16, default='Unknown')
     mem_amount = models.IntegerField(default=0)
     gpu = models.CharField(max_length=64, default='Unknown')
+    type = models.CharField(max_length=16, choices=COMPUTER_TYPES, default=UNKNOWN) # TODO: Rename this to !type
 
     # Software running on it
     os = models.CharField(max_length=16, choices=OPERATING_SYSTEMS, default=UNKNOWN)
-    type = models.CharField(max_length=16, choices=COMPUTER_TYPES, default=UNKNOWN)
     distribution = models.ForeignKey(OSDistribution, blank=True, null=True)
 
     def __str__(self):

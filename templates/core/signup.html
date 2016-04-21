@@ -4,7 +4,13 @@
 
 {% block content %}
 
-    <form action="{% url 'polls:vote' question.id %}" method="post">
+	{% if form.errors %}
+	<p>Your username and password didn't match. Please try again.</p>
+	{% endif %}
+
+	
+
+    <form action="{% url 'core:signup' question.id %}" method="post">
         {% csrf_token %}
         {% for choice in question.choice_set.all %}
             <input type="radio" name="choice" id="choice{{ forloop.counter }}" value="{{ choice.id }}" />

@@ -1,19 +1,19 @@
 {% extends 'core/master.html' %}
 
-{% block title %} Machine: {{ install.name }} {% endblock %}
+{% block title %} Machine: {{ machine.name }} {% endblock %}
 
 {% block content %}
-    {% if install %}
+    {% if machine %}
     <div>
         <ul>
-        <li>CPU: {{ install.cpu }}</li>
-        <li>Memory: {{ iinstall.mem_amount }} ({{ install.mem_type }}) </li>
-        <li>Graphics Card: {{ install.gpu }}</li>
-        <li>Operating System: {{ install.os }}</li>
-        <li>Computer Type: {{ install.type }}</li>
+        <li>CPU: {{ machine.cpu }}</li>
+        <li>Memory: {{ machine.mem_amount }}GB ({{ machine.mem_type }}) </li>
+        <li>Graphics Card: {{ machine.gpu }}</li>
+        <li>Operating System: {{ machine.os }}</li>
+        <li>Computer Type: {{ machine.type }}</li>
         </ul>
 
-        <h3>This machine is owned by <a href="/user/{{ install.owner.user.id }}/">{{ install.owner.user }}</a></h3>
+        <h3>This machine is owned by <a href="/user/{{ machine.owner.user.id }}/">{{ machine.owner.user }}</a></h3>
     </div>
     {% else %}
         <p>No such user found!</p>
